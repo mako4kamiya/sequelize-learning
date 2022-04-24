@@ -11,21 +11,21 @@
 
 ## 検証環境
 ```
-node --version
+$ node --version
 v16.14.2
 ```
 ```
-npm --version
+$ npm --version
 8.5.0
 ```
 ```
-mysql --version
+$ mysql --version
 mysql  Ver 8.0.28
 ```
 ## Installation
 ### ローカルに `sequelize` をインストール
 ```
-npm install sequelize
+$ npm install sequelize
 ```
 package.json
 ```
@@ -39,7 +39,7 @@ package.json
 - 開発環境のみで使用するので `--save-dev` をつける。
 - `devDependencies` にインストールされる。
 ```
-npm install --save-dev sequelize-cli
+$ npm install --save-dev sequelize-cli
 ```
 package.json
 ```
@@ -48,9 +48,9 @@ package.json
 }
 ```
 
-### ローカルに `mysql2` をインストール
+### ローカルに `mysql` をインストール
 ```
-npm install mysql2
+$ npm install mysql2
 ```
 package.json
 ```
@@ -62,7 +62,10 @@ package.json
 
 
 ### `npx sequelize` コマンドで実行
-`npx sequelize --version`
+```
+$ npx sequelize --version`
+```
+ターミナル
 ```
 Sequelize CLI [Node: 16.14.2, CLI: 6.4.1, ORM: 6.19.0]
 6.4.1
@@ -72,14 +75,16 @@ Sequelize CLI [Node: 16.14.2, CLI: 6.4.1, ORM: 6.19.0]
 ## Usage
 ### フォルダの作成
 ```
-npx sequelize init
+$ npx sequelize init
 ```
+ターミナル
 ```
 Created "config/config.json"
 Successfully created models folder at "/sequelize-learning/models".
 Successfully created migrations folder at "/sequelize-learning/migrations".
 Successfully created seeders folder at "/sequelize-learning/seeders".
 ```
+ディレクトリ構成
 ```
 .
 ├── config
@@ -89,10 +94,9 @@ Successfully created seeders folder at "/sequelize-learning/seeders".
 │   └── index.js
 └── seeders
 ```
-- `init:config` 、`init:migrations` 、`init:models` 、 `init:seeders` で個別に作成することもできる。
 
 
-## モデルの作成
+### モデル・マイグレーションファイルの作成
 ```
 npx sequelize model:generate --name モデル名 --attributes 属性名:型
 ```
@@ -105,15 +109,17 @@ npx sequelize model:generate --name モデル名 --attributes 属性名:型
 
 例）
 ```
-npx sequelize model:generate --name User --attributes \
+$ npx sequelize model:generate --name User --attributes \
 firstName:string,\
 lastName:string,\
 email:string
 ```
+ターミナル
 ```
 New model was created at /sequelize-learning/models/user.js .
 New migration was created at /sequelize-learning/migrations/**********-create-user.js .
 ```
+ディレクトリ構成
 ```
 .
 ├── config
@@ -125,3 +131,31 @@ New migration was created at /sequelize-learning/migrations/**********-create-us
 │   └── user.js
 └── seeders
 ```
+- `sequelize-cli migration:generate` でマイグレーションファイルだけ作ることもできる。
+- `migration:generate` と `migration:create` 、`model:generate` と `migration:create`は同じ。
+
+### マイグレートコマンドでデータベースを作る。
+1. ステータスの確認 
+    ```
+    $ npx sequelize-cli db:migrate:status
+    ```
+    ```
+    down 20220424102555-create-user.js
+    ```
+2. マイグレートコマンドでデータベースを作成
+    ```
+    $ npx sequelize-cli db:migrate 
+    ```
+    ターミナル
+    ```
+    == 20220424102555-create-user: migrating =======
+    == 20220424102555-create-user: migrated (0.051s)
+    ```
+3. 再度ステータスの確認 
+    ```
+    $ npx sequelize-cli db:migrate:status
+    ```
+    ターミナル
+    ```
+    up 20220424102555-create-user.js
+    ```

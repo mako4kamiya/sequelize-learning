@@ -1,3 +1,8 @@
-console.log('hello world');
 const db = require('./models')
-console.log(db);
+const User = db.User;
+
+const jane = User.build({ firstName: "Jane", lastName: "Doe" });
+console.log(jane instanceof User); // true
+console.log(jane.firstName); // "Jane"
+console.log(jane.lastName); // "Doe"
+console.log(jane.email); // "undefined"
